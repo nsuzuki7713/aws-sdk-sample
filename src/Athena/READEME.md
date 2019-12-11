@@ -26,3 +26,7 @@ ROW FORMAT SERDE 'org.openx.data.jsonserde.JsonSerDe' LOCATION 's3://athena-test
 
 - Amazon Athenaを使ってJSONファイルを検索してみる
   https://dev.classmethod.jp/cloud/aws/athena-json/
+
+- Workgroup
+  https://blog.santashack.dev/entry/2019/03/01/164405
+  https://dev.classmethod.jp/cloud/aws/20190224-amazon-athena-workgroups/
