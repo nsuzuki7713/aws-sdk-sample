@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "LogGroup and Stream"
+
+Parameters:
+  ## CloudWatch Parameters
+  LogGroupName:
+    Type: String
+    Description: Enter LogGroupName
+  LogStreamName:
+    Type: String
+    Description: Enter LogStreamName
+  RInDays:
+    Type: Number
+    Description: Enter RetentionInDays
+
+Resources:
+  LogG:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: "Delete"
+    Properties:
+      LogGroupName: !Ref LogGroupName
+      RetentionInDays: !Ref RInDays
+
+  LogS:
+    Type: AWS::Logs::LogStream
+    DeletionPolicy: "Delete"
+    Properties:
+      LogGroupName: !Ref LogG
+      LogStreamName: !Ref LogStreamName
