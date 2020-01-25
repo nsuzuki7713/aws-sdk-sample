@@ -1,0 +1,5 @@
+[
+  {"timestamp": 1579826617000, "message" : "Hello CloudWatch Logs" },
+  {"timestamp": 1579826727000, "message" : "Hello CloudWatch Logs2"},
+  {"timestamp": 1579826837000, "message" : "Hello CloudWatch Logs3"}
+]
