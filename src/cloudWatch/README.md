@@ -55,3 +55,75 @@ $ aws logs put-log-events \
 ### nextSequenceTokenの取得
 
 `aws logs describe-log-streams --log-group-name "LearningLogG"`
+
+## cloudwatch Insights
+
+[公式ドキュメントのクエリ構文を参考](https://docs.aws.amazon.com/ja_jp/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html)
+
+ログの形式は下記
+
+```
+{
+  method:"POST",
+  id:101,
+  device:"macos",
+  browser:"chrome"
+}
+```
+
+### クエリーの色々
+
+- 昇順で上位20件のログを取得。表示する項目はfieldsに指定しているもの
+
+```
+fields @timestamp, id, device, browser, method
+| sort @timestamp asc
+| limit 20
+```
+
+- displayコマンドの項目に指定したもののみを表示する
+
+```
+fields @timestamp, id, device, browser, method
+| sort @timestamp asc
+| limit 20
+| display id
+```
+
+- filterコマンドには抽出条件を記載することができる
+
+```
+fields @timestamp, id, device, browser, method
+| filter id = 101 and method = "GET"
+| sort @timestamp asc
+| limit 20
+```
+
+- statsは統計演算子を記載できる
+
+```
+stats count(*) as count
+| filter id = 101 and method = "GET"
+```
+
+- statusはbyの後にグルーピングできる
+
+```
+fields id, device, method
+# idが存在している場合にtrueを返す
+| filter ispresent(id)
+# asはエイリアス名を付ける
+| stats count(*) as count1 by id, device, method
+| sort id
+```
+
+- parseコマンドを使用すると、皇族化されていない値も取得できる
+
+`Hello CloudWatch Logs3` のような形式のログがある場合、parseコマンドを使うことで`Hello CloudWatch` 以降を抜き出すことが可能
+
+```
+fields @message
+| parse @message "Hello CloudWatch *" as log
+| filter log = "Logs3"
+| limit 10
+```
